@@ -33,13 +33,75 @@ namespace StarterProject.Api.Tests.Features.Exercises
             var request = new ExerciseCreateDto { Name = name };
 
             // Act
-
             var repo = new ExerciseRepository(Context);
             var result = repo.CreateExercise(request);
             var exerciseFromContext = Context.Exercises.Find(result.Id);
 
             // Assert
             Assert.AreEqual(name, exerciseFromContext.Name);
+        }
+
+        [Test]
+        public void CreateExercise_MuscleGroupHasValue_ReturnsMuscleGroupThatWasGiven()
+        {
+            // Arrange
+            var muscleGroup = $"{NextId}";
+            var request = new ExerciseCreateDto {MuscleGroup = muscleGroup};
+
+            // Act
+            var repo = new ExerciseRepository(Context);
+            var result = repo.CreateExercise(request);
+            var exerciseFromContext = Context.Exercises.Find(result.Id);
+
+            // Assert
+            Assert.AreEqual(muscleGroup, exerciseFromContext.MuscleGroup);
+
+        }
+        [Test]
+        public void CreateExercise_MuscleGroupHasValue_ContextHasNewExerciseWithCorrectMuscleGroup()
+        {
+            // Arrange
+            var muscleGroup = $"{NextId}";
+            var request = new ExerciseCreateDto { MuscleGroup = muscleGroup };
+
+            // Act
+            var repo = new ExerciseRepository(Context);
+            var result = repo.CreateExercise(request);
+            var exerciseFromContext = Context.Exercises.Find(result.Id);
+
+            // Assert
+            Assert.AreEqual(muscleGroup, exerciseFromContext.MuscleGroup);
+        }
+
+         [Test]
+        public void CreateExercise_UserIdHasValue_ReturnsUserIdThatWasGiven()
+        {
+            // Arrange
+            var UserId = NextId;
+            var request = new ExerciseCreateDto {UserId = UserId};
+
+            // Act
+            var repo = new ExerciseRepository(Context);
+            var result = repo.CreateExercise(request);
+
+            // Assert
+            Assert.AreEqual(UserId, result.UserId);
+        }
+
+        [Test]
+        public void CreateExercise_UserIdHasValue_ContextHasNewExerciseWithCorrectUserId()
+        {
+            // Arrange
+            var UserId = NextId;
+            var request = new ExerciseCreateDto {UserId = UserId};
+
+            // Act
+            var repo = new ExerciseRepository(Context);
+            var result = repo.CreateExercise(request);
+            var exerciseFromContext = Context.Exercises.Find(result.Id);
+
+            // Assert
+            Assert.AreEqual(UserId, exerciseFromContext.UserId);
         }
     }
 }

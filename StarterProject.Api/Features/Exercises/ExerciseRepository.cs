@@ -43,7 +43,7 @@ namespace StarterProject.Api.Features.Exercises
                 Id = exercise.Id,
                 Name = exercise.Name,
                 MuscleGroup = exercise.MuscleGroup,
-                UserId = exercise.Id
+                UserId = exercise.UserId
             };
 
             exerciseGetDto.Id = exercise.Id;
@@ -65,7 +65,7 @@ namespace StarterProject.Api.Features.Exercises
                 Id = exercise.Id,
                 Name = exercise.Name,
                 MuscleGroup = exercise.MuscleGroup,
-                UserId = exercise.Id
+                UserId = exercise.UserId
             };
 
             exerciseGetDto.Id = exercise.Id;
@@ -96,7 +96,7 @@ namespace StarterProject.Api.Features.Exercises
                     Id = x.Id,
                     Name = x.Name,
                     MuscleGroup = x.MuscleGroup,
-                    UserId = x.Id
+                    UserId = x.UserId
                 })
 
                 .FirstOrDefault(x => x.Id == exerciseId);

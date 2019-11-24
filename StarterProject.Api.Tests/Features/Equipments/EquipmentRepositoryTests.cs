@@ -35,5 +35,36 @@ namespace StarterProject.Api.Tests.Features.Equipments
 
             Assert.AreEqual(name, equipmentFromContext.Name);
         }
+
+        [Test]
+        public void CreateEquipment_UserIdHasValue_ReturnsUserIdThatWasGiven()
+        {
+            // Arrange
+            var UserId = NextId;
+            var request = new EquipmentCreateDto {UserId = UserId};
+
+            // Act
+            var repo = new EquipmentRepository(Context);
+            var result = repo.CreateEquipment(request);
+
+            // Assert
+            Assert.AreEqual(UserId, result.UserId);
+        }
+
+        [Test]
+        public void CreateEquipment_UserIdHasValue_ContextHasNewRoutineWithCorrectUserId()
+        {
+            // Arrange
+            var UserId = NextId;
+            var request = new EquipmentCreateDto {UserId = UserId};
+
+            // Act
+            var repo = new EquipmentRepository(Context);
+            var result = repo.CreateEquipment(request);
+            var routineFromContext = Context.Equipments.Find(result.Id);
+
+            // Assert
+            Assert.AreEqual(UserId, routineFromContext.UserId);
+        }
     }
 }

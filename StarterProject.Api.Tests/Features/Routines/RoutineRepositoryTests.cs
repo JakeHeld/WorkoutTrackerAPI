@@ -35,13 +35,43 @@ namespace StarterProject.Api.Tests.Features.Routines
             var request = new RoutineCreateDto { Name = name };
 
             // Act
-
             var repo = new RoutineRepository(Context);
             var result = repo.CreateRoutine(request);
             var routineFromContext = Context.Routines.Find(result.Id);
 
             // Assert
             Assert.AreEqual(name, routineFromContext.Name);
+        }
+
+        [Test]
+        public void CreateRoutine_UserIdHasValue_ReturnsUserIdThatWasGiven()
+        {
+            // Arrange
+            var UserId = NextId;
+            var request = new RoutineCreateDto {UserId = UserId};
+
+            // Act
+            var repo = new RoutineRepository(Context);
+            var result = repo.CreateRoutine(request);
+
+            // Assert
+            Assert.AreEqual(UserId, result.UserId);
+        }
+
+        [Test]
+        public void CreateRoutine_UserIdHasValue_ContextHasNewRoutineWithCorrectUserId()
+        {
+            // Arrange
+            var UserId = NextId;
+            var request = new RoutineCreateDto {UserId = UserId};
+
+            // Act
+            var repo = new RoutineRepository(Context);
+            var result = repo.CreateRoutine(request);
+            var routineFromContext = Context.Routines.Find(result.Id);
+
+            // Assert
+            Assert.AreEqual(UserId, routineFromContext.UserId);
         }
     }
 }
