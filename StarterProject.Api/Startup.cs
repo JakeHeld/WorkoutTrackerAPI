@@ -25,8 +25,9 @@ using StarterProject.Api.Features.Exercises.Dtos;
 using StarterProject.Api.Features.Routines.Dtos;
 using StarterProject.Api.Features.Equipments.Dtos;
 using StarterProject.Api.Features.Eqiupments.Dtos;
-
 using StarterProject.Api.Features.Exercises.Dtos;
+using System.Reflection;
+using AutoMapper;
 
 namespace StarterProject.Api
 {
@@ -43,10 +44,14 @@ namespace StarterProject.Api
         {
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            var webAssembly = Assembly.GetAssembly(typeof(Startup));
+            // See: https://automapper.readthedocs.io/en/latest/Dependency-injection.html#asp-net-core
+            services.AddAutoMapper(webAssembly);
             SetupDatabase(services);
             SetupAuthentication(services);
             SetupAuthorization(services);
             SetupCustomDependencies(services);
+
         }
 
         private void SetupDatabase(IServiceCollection services)

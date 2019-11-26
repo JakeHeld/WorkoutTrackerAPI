@@ -1,4 +1,5 @@
-﻿using StarterProject.Api.Data;
+﻿using AutoMapper;
+using StarterProject.Api.Data;
 using StarterProject.Api.Data.Entites;
 using StarterProject.Api.Features.Routines.Dtos;
 using System;
@@ -20,14 +21,24 @@ namespace StarterProject.Api.Features.Routines
     public class RoutineRepository : IRoutineRepository
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public RoutineRepository(DataContext context)
+        public RoutineRepository(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public RoutineGetDto CreateRoutine(RoutineCreateDto routineCreateDto)
         {
+            var routine = _mapper.Map<Routine>(routineCreateDto);
+            _context.Set<Routine>().Add(routine);
+            _context.SaveChanges();
+            var routineGetDto = _mapper.Map<RoutineGetDto>(routine);
+            return routineGetDto;
+
+
+            /*
             var routine = new Routine
             {
                 Name = routineCreateDto.Name,
@@ -42,8 +53,8 @@ namespace StarterProject.Api.Features.Routines
                 Id = routine.Id,
                 Name = routine.Name,
                 UserId = routine.UserId
-            };
-            return routineGetDto;
+            };*/
+            //return routineGetDto;
         }
 
         public RoutineGetDto GetRoutine(int routineId)
@@ -62,18 +73,19 @@ namespace StarterProject.Api.Features.Routines
         public RoutineGetDto EditRoutine(int id, RoutineEditDto routineEditDto)
         {
             var routine = _context.Set<Routine>().Find(id);
-
-            routine.Name = routineEditDto.Name;
+            _mapper.Map(routineEditDto, routine);
+            //routine.Name = routineEditDto.Name;
 
             _context.SaveChanges();
 
-            var routineGetDto = new RoutineGetDto
+            /*
+             var routineGetDto = new RoutineGetDto
             {
                 Id = routine.Id,
                 Name = routine.Name,
                 UserId = routine.UserId
-            };
-            return routineGetDto;
+            };*/
+            return _mapper.Map<RoutineGetDto>(routine);
         }
 
         public List<RoutineGetDto> GetAllRoutines(int userId)
